@@ -1,0 +1,69 @@
+## we need to scan aws instances and send mail if any instance in untagged.
+
+install aws cli
+install boto
+install skew
+
+now configure with aws credentials
+
+aws configure --profile prod
+
+sudo pip install skew
+
+now create a file in home directory - 
+vim .skew
+
+paste below content
+###############
+---
+  accounts:
+    "your aws account number":
+      profile: prod
+#######################
+
+now save and exit
+
+now create a python script, 
+
+1. this will scan instances and output only if 'tagkey' not tagged
+
+
+##################
+
+import skew
+
+for instance in skew.scan('arn:aws:ec2:region:awsaccountno:instance/*'):
+    if not instance.tags['tagkey']:
+        print("%s is untagged %s" % (instance.id, instance.tags['Name'],))
+        
+        
+########################
+
+2. below scan and output for two keys if missing
+
+#######################
+import skew
+
+for instance in skew.scan('arn:aws:ec2:region:awsaccountno:instance/*'):
+    if not instance.tags['Team'] or  not  instance.tags['service']:
+        print("%s is untagged %s" % (instance.id, instance.tags['Name'],))
+#######################
+
+if we want to print instance name with type of tags than 
+
+# print("%s is untagged %s,%s" % (instance.id, instance.tags['Name'],instance.tags))    - put this on third line
+ 
+ 
+ save it to ex- instance-tag.py
+ 
+ now run 
+ 
+ python instance-tag.py
+ 
+ ir will output untagged instace list
+ 
+ ###############
+ 
+ to send alert mail 
+ 
+ 02 9 * * * python /home/user/scripts/instance-tag.py | mail -s "New Untagged Instances List" your mail id
