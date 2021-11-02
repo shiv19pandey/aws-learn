@@ -1,0 +1,48 @@
+### to give IAM user to access everything except IAM and launch new instance
+
+
+#####################################
+{
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "NotAction": [
+                "iam:*",
+                "ec2:RunInstances"
+            ],
+            "Resource": "*"
+        }
+    ],
+    "Version": "2012-10-17"
+}
+
+#####################################
+
+### resource lavel permission 
+
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Action": [
+                "ec2:StartInstances",
+                "ec2:StopInstances",
+                "ec2:RebootInstances",
+                "ec2:DescribeInstances"
+            ],
+            "Condition": {
+                "StringEquals": {
+                    "ec2:ResourceTag/Team": "qa"
+                }
+            },
+            "Resource": [
+                "*"
+            ],
+            "Effect": "Allow"
+        }
+    ]
+}
+
+#####
+
+https://aws.amazon.com/blogs/security/resource-level-permissions-for-ec2-controlling-management-access-on-specific-instances
