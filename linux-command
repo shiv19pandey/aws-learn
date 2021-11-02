@@ -1,0 +1,97 @@
+to list all user in linux server
+
+# cut -d: -f1 /etc/passwd
+
+to check expired account detail
+
+cat shadow | cut -d: -f1,8 | sed /:$/d
+
+
+## below link will describe how to backup and restore ssh user
+https://www.cyberciti.biz/faq/howto-move-migrate-user-accounts-old-to-new-server/
+
+
+# userdel -r username  - to remove user and home dir
+
+
+##########
+cat /proc/sys/fs/file-max  - view the current limit on the number of file-open
+
+
+to increase ulimit in ubuntu - /etc/security/limits.conf
+
+* soft nproc 655350 
+* hard nproc 655350 
+* soft nofile 655350 
+* hard nofile 655350
+
+and reboot
+
+## If you want to apply changes without reboot, modify /etc/pam.d/common-session by adding this line at the end of file:
+
+session required pam_limits.so
+
+
+
+
+ulimit -n
+
+########
+
+grep instance id from opswork 
+
+aws opsworks --region ap-southeast-1 describe-instances --stack-id stack id name | grep -w "InstanceId" | xargs | awk  '{print $2}' | sed 's/.$//'
+
+
+####
+if some time rsyslog not creation logs and if u restart it start failed and see log its - bufer full error than do below
+
+sudo apt-get install --only-upgrade apparmor
+
+restart apparmor and rsyslog
+
+##########
+
+###############
+
+Check Enhanced Networking in aws instance 
+
+http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/sriov-networking.html
+
+
+######
+Resolved: ‘/bin/rm: Argument list too long’ error
+if you empty a directory that have large number of files than, 
+
+find . -name "*xlsx" | xargs rm -f
+
+############################
+
+its better to truncate a log file than delete or empty
+
+use this commad to truncate log file
+
+truncate -s 0 filename
+##################################
+use sudo while echo content in file
+
+sudo sh -c "echo "ansible-$HOSTNAME" > /etc/hostname"
+
+### change the user shell
+chsh --shell /bin/zsh aman
+
+# check the currnt shell 
+echo $0
+
+## delete empty file
+find . -size 0 -print0 | xargs -0 rm --
+
+##
+delete data for selected months
+
+ll | grep Jul | awk '{print $9}' | xargs rm -rf
+
+
+## python server with auth
+
+python -m SimpleHTTPAuthServer 8080 log:log@87654 &
