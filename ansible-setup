@@ -1,0 +1,99 @@
+installation: - 
+
+sudo apt-get install software-properties-common
+$ sudo apt-add-repository ppa:ansible/ansible
+$ sudo apt-get update
+$ sudo apt-get install ansible
+
+### installation in centos
+## Install ansible in Amazon or centos linux
+
+Add epel repo
+
+RHEL/CentOS 6 64-Bit ##
+# wget http://download.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm
+# sudo rpm -ivh epel-release-6-8.noarch.rpm
+
+sudo yum update
+
+to check ansible version available
+
+yum --enablerepo=epel info ansible
+
+yum --enablerepo=epel install ansible
+
+if you get python "python27-jmespath" error than uninstall this
+
+yum remove python27-jmespath
+
+ansible --version
+
+#####
+
+sudo apt-get install python-pip
+pip install boto
+
+sudo apt-get install awscli
+
+create a user name - ansible
+
+adduser ansible
+chown -R ansible:ansible /etc/ansible
+
+change the home directiry (optional)
+usermod -d /var/www/ tecmint
+
+aws configure in ansible user
+access key
+secret key
+
+$ export AWS_ACCESS_KEY_ID='YOUR_AWS_API_KEY'
+$ export AWS_SECRET_ACCESS_KEY='YOUR_AWS_API_SECRET_KEY'
+$ export ANSIBLE_HOSTS=/etc/ansible/ec2.py
+
+
+
+
+wget https://raw.githubusercontent.com/ansible/ansible/devel/contrib/inventory/ec2.py
+wget https://raw.githubusercontent.com/ansible/ansible/devel/contrib/inventory/ec2.ini
+
+chmod u+x ec2.py
+
+##################
+changes in ec2.ini
+change regions = all to regions = ap-southeast-1
+
+destination_variable = private_dns_name
+vpc_destination_variable = private_ip_address
+
+####################
+
+changes in ec2.py
+add secret key and access key
+
+add this in .bashrc
+export EC2_INI_PATH=/etc/ansible/ec2.ini
+
+
+####
+add in ansible.cfg
+
+inventory      = /etc/ansible/ec2.py
+
+remote_user = username
+
+if you face below error while run ec2.py --list
+
+ImportError: No module named ansible.module_utils
+
+
+then 
+
+sudo pip install ansible
+
+
+### to bypass ssh host verification for known_host in ansible.cfg file
+
+host_key_checking = False
+
+############################
