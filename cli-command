@@ -150,4 +150,5 @@ https://fitdevops.in/how-to-reduce-aws-ebs-root-volume-size/
 #clear memory cache
 sync; echo 3 | sudo tee /proc/sys/vm/drop_caches 
 sync; echo 2 | sudo tee /proc/sys/vm/drop_caches 
-sync; echo 1 | sudo tee /proc/sys/vm/drop_caches 
+sync; echo 1 | sudo tee /proc/sys/vm/drop_caches
+
