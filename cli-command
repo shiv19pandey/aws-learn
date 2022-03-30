@@ -49,6 +49,7 @@ echo $$ >/tmp/backup_pid
 #reseller elb -removed-14-aug-2019
 #workflow-web elb -removed-14-aug-2019
 #using file in aws cli 
+save instance ids in file then run below command for tag creation
 for ins in `cat backend_instaceid.txt` ; do aws ec2 create-tags --resources $ins --tags Key=runtime,Value=24x7; done
 
 
