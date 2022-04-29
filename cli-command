@@ -175,3 +175,6 @@ aws ec2 delete-snapshot --snapshot-id snap-1234567890abcdef0
 for ins in `cat test_snal.txt` ; do aws ec2 delete-snapshot --snapshot-id $ins; done
 aws ec2 describe-images --owner self --query 'Images[?CreationDate>=`2021-01-01`]'.'[ImageId]' --output=table
 aws ec2 describe-images --owners 814556721287  --query 'Images[]' | grep -E 'ImageId|SnapshotId'
+################# if df showing disk full and ncdu not ####################
+sudo lsof | grep deleted  (than kill the process of deleted item)
+
