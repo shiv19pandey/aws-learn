@@ -177,4 +177,6 @@ aws ec2 describe-images --owner self --query 'Images[?CreationDate>=`2021-01-01`
 aws ec2 describe-images --owners 814556721287  --query 'Images[]' | grep -E 'ImageId|SnapshotId'
 ################# if df showing disk full and ncdu not ####################
 sudo lsof | grep deleted  (than kill the process of deleted item)
+########### create swap memory on ubuntu 20 #############
+https://linuxize.com/post/how-to-add-swap-space-on-ubuntu-20-04/
 
