@@ -1,0 +1,170 @@
+Print stopped instances with IPs.
+aws ec2 describe-instances --filters  "Name=instance-state-name,Values=stopped" --query 'Reservations[].Instances[].[InstanceId,PrivateIpAddress]' --output=table > stopped.txt
+Print only running instances
+ aws ec2 describe-instances --query 'Reservations[*].Instances[*].[InstanceId]' --filters Name=instance-state-name,Values=running --output text | wc -l
+#Create tags.
+aws ec2 create-tags --resources i-1286157c --tags Key=My1stTag,Value=Value1 Key=My2ndTag,Value=Value2 Key=My3rdTag,Value=Value3
+#list stop instances with instance Ids.
+aws ec2 describe-instances --filters  "Name=instance-state-name,Values=stopped" --query 'Reservations[].Instances[].InstanceId' --output=json
+#Start instance with instance ids.
+aws ec2 start-instances --instance-ids i-1234567890abcdef0
+#stop instances with instance ids.
+aws ec2 stop-instances --instance-ids i-1234567890abcdef0
+#Terminate.
+aws ec2 terminate-instances --instance-ids i-1234567890abcdef0
+#tag ebs of stopped instance with file
+aws ec2 create-tags --resources `head -n1 stopped_volumes.txt` --tags Key=Status_temp,Value=Stopped
+#tag single ebs.
+ aws ec2 create-tags --resources "vol-0fda575b6186ee3f6" --tags Key=Status_temp,Value=Stopped
+#list all ebs of stopped instances.
+aws ec2 describe-instances --filters  "Name=instance-state-name,Values=stopped" --query 'Reservations[].Instances[].BlockDeviceMappings[].Ebs.VolumeId' --output=text > stopped_volumes.txt
+#list only 10 line.
+aws ec2 describe-instances --filters  "Name=instance-state-name,Values=stopped" --query 'Reservations[].Instances[].BlockDeviceMappings[].Ebs.VolumeId' --output=json --max-items 10
+#Cli-commond-refrence
+https://riptutorial.com/Download/aws-cli.pdf
+#Bash scripting
+https://ryanstutorials.net/bash-scripting-tutorial/bash-variables.php
+
+#Sed and awk commond reffrence
+https://www.journaldev.com/28984/linux-sed-command-examples#linux-sed-command-syntax
+#List all reserved_active instance
+aws ec2 describe-reserved-instances --filters Name=state,Values=active --output=text | awk '{print $6 "\t" $8 "\t" $4}'  active_reserved_last_date.txt
+#Check file count on /
+#inodes
+ for i in /*; do echo $i; find $i |wc -l; done
+ for i in /home/*; do echo $i; find $i |wc -l; done
+ rm -rf /home/bad_user/directory_with_lots_of_empty_files
+for i in /*; do echo $i; find $i |wc -l; done
+#Find 0 size file 
+find . -size 0 -ls  
+#Find and delete 0 size files
+find . -type f -size 0 | xargs rm -f
+#Check queue emails and delete 
+sudo find /var/spool/postfix/deferred -type f | wc -l
+sudo postsuper -d ALL 
+
+#The shell variable $$ contains the PID of the current running script. You could use it like this:
+echo $$ >/tmp/backup_pid
+
+#reseller elb -removed-14-aug-2019
+#workflow-web elb -removed-14-aug-2019
+#using file in aws cli 
+for ins in `cat backend_instaceid.txt` ; do aws ec2 create-tags --resources $ins --tags Key=runtime,Value=24x7; done
+
+
+#for list instance by tag ip
+aws ec2 describe-instances --filters "Name=tag:service,Values=pricing" "Name=instance-state-name,Values=running" --query 'Reservations[*].Instances[*].PrivateIpAddress' --output=text
+#convert .pem tp .pub (its important for auto login)
+ssh-keygen -y -f private_key1.pem > public_key1.pub 
+#Print only normal instance ips.
+aws ec2 describe-instances --query "Reservations[*].Instances[?State.Name=='running' && InstanceLifecycle==null].PrivateIpAddress" --output=text | xargs -n1 > on.demond.txt 
+#List all instance which not tag with {Team}-useful
+aws ec2 describe-instances --query 'Reservations[].Instances[?!contains(Tags[].Key, `Team`)][].PrivateIpAddress'
+#resize and growpart for root disk
+https://computingforgeeks.com/how-to-extend-aws-ec2-instance-boot-file-system-without-rebooting/
+#Git clon push commit
+git clone git@github.com:JoulRoad/instance-information.git
+ 1163  cat ~/.ssh/id_rsa.pub 
+ 1164  git clone git@github.com:JoulRoad/instance-information.git
+ 1165  ls
+ 1166  cd instance-information/
+ 1167  git status
+ 1168  ls
+ 1169  git checkout -b shiv/addTranformTfstate
+ 1170  cp ../terraform.tfstate .
+ 1171  LS
+ 1172  git status
+ 1173  git add .
+ 1174  git commit -m "Added terraform.tfstate"
+ 1175  git push
+ 1176      git push --set-upstream origin shiv/addTranformTfstate
+ 1177  git status
+ 1178  git checkout master
+ 1179  cd ..
+ 1180  ls
+ 1181  cd instance-information/
+ 1182  ls
+ 1183  git checkout master
+ /Users/limeroad/terra_shiv/shiv/instance-information
+ #[2.535658] EXT4-fs (vda): Couldn't remount RDWR because of unprocessed orphan inode list.  Please umount/remount instead
+ sudo e2fsck -f /dev/xvda2
+ than attach
+#GPG key
+https://help.github.com/en/github/authenticating-to-github/managing-commit-signature-verification
+#Zip complete
+zip -r opsworksCookbook_shiv cookbook/
+aws s3 sync . s3://opsworks-beta/Backend/
+sed 's/[" ,;]//g'  #remove quote and comma from instance ids.
+#delete user with home directory
+sudo deluser --remove-home sahil
+#Redshift user
+CREATE USER "siddhant" in group reader PASSWORD 'Siddhant@123';
+#zookeeper access
+/home/ubuntu/infra/zkui than edit config.cfg
+#remove opswork from instance
+a) sudo /etc/init.d/monit stop
+            b) sudo /etc/init.d/opsworks-agent stop
+            c) sudo rm -rf /etc/aws/opsworks/ /opt/aws/opsworks/ /var/log/aws/opsworks/ /var/lib/aws/opsworks/ /etc/monit.d/opsworks-agent.monitrc /etc/monit/conf.d/opsworks-agent.monitrc /var/lib/cloud/
+
+https://docs.aws.amazon.com/opsworks/latest/userguide/workinginstances-custom-ami.html#workinginstances-custom-ami-create
+
+Tanuj id:-
+email:-limeroad2012@gmail.com
+pass:-limeroadGA$42$42
+https://console.developers.google.com/apis/credentials/oauthclient/401242361911.apps.googleusercontent.com?folder=&organizationId=&project=api-project-401242361911
+https://console.developers.google.com/apis/dashboard?authuser=0&project=server-location&supportedpurview=project
+Site google:-
+https://sites.google.com/a/limeroad.com/vendor-scaling/infra/vpn-setup/vpn-tunnel-across-region
+Tech daigrame:-
+https://sites.google.com/a/limeroad.com/vendor-scaling/infra
+
+Terraform.
+https://www.youtube.com/watch?v=iE7-9fqsrTU&list=PL_OdF9Z6GmVY9QfBfNUua_X2c2mT65SAX&index=5
+
+#seller portal access.
+http://admin.trunkroute.com/vendorportalPermissions
+
+#Run java file
+java -jar myapp.jar
+curl -XGET http://internal-PROD-VPC-order-service-int-2145855008.ap-southeast-1.elb.amazonaws.com:9092/order_service/service/executeJobOnClassname?me=WhatsappForDelayedOrdersJob
+
+#site google link
+https://sites.google.com/a/limeroad.com/vendor-scaling/aerospike/adding-a-node
+#find and delete with sub-directory and files
+find /data/centrallogs/notification/2021/08/ -mtime +7 -delete
+#list all rds databases
+aws rds describe-db-instances  --query "*[].[DBInstanceIdentifier,Endpoint.Address,Endpoint.Port,MasterUsername]"
+#tag volume
+ graffiti-monkey --region ap-southeast-1 --profile prod --config volumetag.yml
+#if enable ENA and check failed than need entry
+LABEL=cloudimg-rootfs	/	 ext4	defaults,discard	0 0
+#ENA (ENA required minimum 14.4.4)
+sudo apt-get update && sudo apt-get upgrade -y linux-aws (if not boot in c5a-if not run this command go on /etc/apt/sources.list.d and delete all files than gain run)
+/dev/nvme1n1 /mnt/images_new ext4 rw 0 0
+https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/enhanced-networking-ena.html
+aws ec2 modify-instance-attribute --instance-id i-06248d8358b833c09 --no-ena-support
+#sql master and slave
+https://hevodata.com/learn/mysql-master-slave-replication/
+#create root volume for resize
+https://fitdevops.in/how-to-reduce-aws-ebs-root-volume-size/
+#clear memory cache
+sync; echo 3 | sudo tee /proc/sys/vm/drop_caches 
+sync; echo 2 | sudo tee /proc/sys/vm/drop_caches 
+sync; echo 1 | sudo tee /proc/sys/vm/drop_caches 
+
+#cloud watch monitoring disk,memory
+https://themythicalengineer.com/setup-aws-cloudwatch-monitoring-and-alarms.html
+VPN-Linux
+https://github.com/hwdsl2/setup-ipsec-vpn/blob/master/docs/clients.md
+#resize ubuntu 18.4 disk
+sudo growpart /dev/nvme0n1 1
+
+I could then extend the FS with
+
+sudo resize2fs /dev/nvme0n1p1
+#jupyter run
+nohup /usr/bin/python3 /usr/local/bin/jupyter-notebook --allow-root --ip ec2-18-216-117-42.us-east-2.compute.amazonaws.com --port 13579 > jupyter_logs &
+#print particular date ami
+aws ec2 describe-images --owners 814556721287  --query 'Images[?CreationDate>=`2021-01-01`]'.'[ImageId]' --output=table
+#print ami with snapshot id
+aws ec2 describe-images --owners 814556721287  --query 'Images[?CreationDate>=`2021-01-01`][]' | grep -E 'ImageId|SnapshotId'  > AMI_SnapId.txt

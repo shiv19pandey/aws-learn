@@ -1,0 +1,38 @@
+/etc/ansible/ec2.py --list  - it will do inventory of all aws resources.
+#check os version for all instance
+ansible -m shell -a 'lsb_release -a' --private-key=/home/ubuntu/main all >> os-version.txt
+ansible -m shell -a 'lsb_release -a' --private-key=/home/ubuntu/security all > os-version.sec.txt
+
+Now ping your ec2 instance with tag name 
+
+ansible -m ping tag_Team_teamname --private-key=key.pem   : - here we ping all ec2 instance tag with Team - infravpn
+
+ansible -m ping all --private-key=key.pem   : - here we ping all resources
+
+
+ansible-playbook relic_os.yml --private-key=key.pem : run playbook with private key
+
+
+### check disk space in remote machine with ansible (we can define ip address instead of instance id) and send any command instaed of df -Th
+
+ansible -m command -a "df -Th" -u username instanceid --private-key=kay.pem
+
+## for multiple instance id or ip 
+
+ansible -m command -a "df -Th" -u username "instanceid1,instanceid2,instanceid3" --private-key=kay.pem
+
+# to run shell command to remote host
+ansible -m shell -a 'uname -a' -u username --private-key=key.pem host
+
+## to set value in .bashrc
+
+ansible -m shell -a 'echo "ulimit -c unlimited >/dev/null 2>&1" >> /root/.bashrc' -u ec2-user --become --private-key=key.pem host
+
+
+# run source command
+
+ansible -m shell -a 'source /root/.bashrc' -u ec2-user --become --become-user=root --private-key=key.pem host
+
+# check any particular file content in all servers
+
+ansible -m shell -a 'cat /home/username/.ssh/id_rsa.pub' -u user --private-key=key.pem tag_serveros_ubuntu >> keylisyt.txt

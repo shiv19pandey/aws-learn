@@ -1,0 +1,1 @@
+sudo ./newrelic_redis_agent restart newrelic plugin 

@@ -7,3 +7,4 @@ delete only log file
     rotate 0
     notifempty
 }
+~     

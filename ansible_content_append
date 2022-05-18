@@ -1,0 +1,17 @@
+---
+- hosts: pricing1
+  sudo: yes
+  user: ubuntu
+  tasks:
+    - name: example copying file with owner and permissions
+      #copy:
+              # src: /home/ubuntu/pricing.pem
+      blockinfile:
+        state: present
+        insertafter: EOF
+        dest: /home/ubuntu/.ssh/authorized_keys
+        content: "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCC2k6YFXzHKciTmx2ChlSe4SneJ2tGIZBwP/cHDZZINwOzd0Kl3JO4AmfclxeOlExJMusYcfpj1L1LKDqbloJ6HWbh0LtBoy7f6FG98pY9lKefH4pJnH/mcXNkj6str60t19lpUq2yNN5nWaACg5MypGvpKQmWk1zc+BziTZcbMbgL9MrPOVgFgdd4hSeUwLM9NfqkEktZT//JWm+LNcP3PNothNOh/RuG8XoIQrJcUHqfRJJZo8mbiFaQtJOrsXwlrXMQaCw3it5h0mG4aCHzNgnt4hQB+J5jg9m+sWoVEQtQHVfVvsqVGWNuucdc+CPkaGXSZxCLBKhlqmV9EyYn"
+        owner: ubuntu
+        group: ubuntu
+        mode: 0600
+
