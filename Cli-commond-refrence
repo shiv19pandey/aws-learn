@@ -1,5 +1,7 @@
 Print stopped instances with IPs.
 aws ec2 describe-instances --filters  "Name=instance-state-name,Values=stopped" --query 'Reservations[].Instances[].[InstanceId,PrivateIpAddress]' --output=table > stopped.txt
+List by ip,name,type,running
+aws ec2 describe-instances --query 'Reservations[].Instances[].[InstanceId,InstanceType,PrivateIpAddress,Tags[?Key==`Name`]| [0].Value]' --output table
 Print only running instances
  aws ec2 describe-instances --query 'Reservations[*].Instances[*].[InstanceId]' --filters Name=instance-state-name,Values=running --output text | wc -l
 #Create tags.
