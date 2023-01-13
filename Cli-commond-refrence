@@ -172,3 +172,7 @@ nohup /usr/bin/python3 /usr/local/bin/jupyter-notebook --allow-root --ip ec2-18-
 aws ec2 describe-images --owners 814556721287  --query 'Images[?CreationDate>=`2021-01-01`]'.'[ImageId]' --output=table
 #print ami with snapshot id
 aws ec2 describe-images --owners 814556721287  --query 'Images[?CreationDate>=`2021-01-01`][]' | grep -E 'ImageId|SnapshotId'  > AMI_SnapId.txt
+########## delete snapshot ##########
+for ins in `cat snapdel.txt` ; do aws ec2 delete-snapshot --snapshot-id $ins; done
+aws ec2 delete-snapshot --snapshot-id snap-005e3be5b83545109
+
